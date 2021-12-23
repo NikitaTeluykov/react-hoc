@@ -1,12 +1,44 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+const  starWars = [
+  {name: 'Dart', side: 'dark'},
+  {name: 'Luke', side: 'light'},
+  {name: 'Palp', side: 'dark'},
+  {name: 'Obivan', side: 'light'}
+]
+
+const App = ({list}) => {
+  return (
+   <ul>
+     {
+       list.map((char, index) => {
+         return (
+           <li key={char.name + index}>
+             <strong>{char.name}</strong> - &nbsp;
+             {char.side}
+           </li>
+         )
+       })
+     }
+   </ul>
+  )
+}
+
+const withFilteredProps = Component => ({list, side}) => {
+  const filteredList = list.filter(char => char.side === side)
+
+  return <Component list = {filteredList} />
+}
+
+const FilteredList = withFilteredProps(App)
+
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <FilteredList list={starWars} side = "light"/>
   </React.StrictMode>,
   document.getElementById('root')
 );
